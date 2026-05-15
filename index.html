@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebTech - Chuyên gia Công nghệ</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1435c3;
+            --secondary-color: #ed1b24;
+            --bg-color: #f4f6f9;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- Navbar Cải tiến --- */
+        .main-nav {
+            background-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 10px 20px !important;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            color: #fff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Cấu trúc Card Sản Phẩm (Tối ưu Hover) --- */
+        .product-card {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            background: #fff;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            border-color: transparent;
+        }
+
+        .product-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(237, 27, 36, 0.3);
+        }
+
+        .product-img-wrapper {
+            height: 220px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-img-wrapper img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-img-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #2b2b2b;
+            transition: color 0.3s;
+        }
+
+        .product-card:hover .product-title {
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .btn-buy {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover .btn-buy {
+            background-color: var(--primary-color);
+            color: #fff;
+            transform: scale(1.02);
+        }
+        
+        /* Chỉnh lại icon cho modal */
+        .modal-icon {
+            font-size: 3.5rem;
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark main-nav sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+                <i class="fa-solid fa-microchip fs-2 me-2 text-warning"></i> 
+                <span>WebTech</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav ms-auto gap-2">
+                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fa-solid fa-house me-1"></i> Trang Chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal"><i class="fa-solid fa-fire me-1 text-warning"></i> Khuyến Mãi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal">Linh Kiện PC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal">Liên Hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row g-3">
+            <div class="col-lg-8">
+                <div id="promoCarousel" class="carousel slide rounded-3 overflow-hidden shadow-sm" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="images/banner-1.jpg" class="d-block w-100 object-fit-cover" style="height: 400px;" alt="Banner 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/banner-2.jpg" class="d-block w-100 object-fit-cover" style="height: 400px;" alt="Banner 2">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-flex flex-column gap-3">
+                <div class="h-50 overflow-hidden rounded-3 shadow-sm">
+                    <img src="images/sub-banner-1.jpg" class="w-100 h-100 object-fit-cover hover-zoom" alt="Sub Banner 1">
+                </div>
+                <div class="h-50 overflow-hidden rounded-3 shadow-sm">
+                    <img src="images/sub-banner-2.jpg" class="w-100 h-100 object-fit-cover hover-zoom" alt="Sub Banner 2">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-2 border-primary">
+            <h3 class="fw-bold text-uppercase m-0 text-primary">Sản Phẩm Nổi Bật</h3>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <span class="discount-badge">SALE</span>
+                    <a href="product-detail.html?id=1" class="product-link">
+                        <div class="product-img-wrapper">
+                            <img src="images/product-1.jpg" alt="VGA Gainward">
+                        </div>
+                        <div class="card-body border-top">
+                            <h5 class="product-title">Card màn hình Gainward GeForce RTX 5070 PYTHON III 12GB GDDR7 (NE75070019K9-GB2050T)</h5>
+                            <div class="mb-3 d-flex align-items-end flex-wrap gap-2">
+                                <span class="product-price">21.990.000đ</span>
+                                <span class="old-price">22.990.000₫</span>
+                            </div>
+                            <button class="btn btn-buy w-100">Xem Chi Tiết</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <a href="product-detail.html?id=2" class="product-link">
+                        <div class="product-img-wrapper">
+                            <img src="images/product-2.jpg" alt="CPU AMD">
+                        </div>
+                        <div class="card-body border-top">
+                            <h5 class="product-title">CPU AMD Ryzen 7 9800X3D (8 nhân 16 luồng - Boost to 5.2 GHz - 104MB - AM5)</h5>
+                            <div class="mb-3 d-flex align-items-end flex-wrap gap-2">
+                                <span class="product-price">14.990.000₫</span>
+                            </div>
+                            <button class="btn btn-buy w-100">Xem Chi Tiết</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <span class="discount-badge bg-danger">HOT</span>
+                    <a href="product-detail.html?id=3" class="product-link">
+                        <div class="product-img-wrapper">
+                            <img src="images/product-3.jpg" alt="Laptop Asus">
+                        </div>
+                        <div class="card-body border-top">
+                            <h5 class="product-title">Laptop Asus ROG Zephyrus G16 GU605CR-QR265WS (Ultra 9-285H/ GeForce RTX™ 5070Ti/ 32GB/ 1TB/ Win 11 Home)</h5>
+                            <div class="mb-3 d-flex align-items-end flex-wrap gap-2">
+                                <span class="product-price">77.990.000₫</span>
+                            </div>
+                            <button class="btn btn-buy w-100">Xem Chi Tiết</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <a href="product-detail.html?id=4" class="product-link">
+                        <div class="product-img-wrapper">
+                            <img src="images/product-4.jpg" alt="Màn hình Samsung">
+                        </div>
+                        <div class="card-body border-top">
+                            <h5 class="product-title">Màn hình Samsung OLED G8 G85SB LS34BG850SEXXV 34" (UltraWide 3440 x 1440/ OLED/ 175Hz/ 0.1 ms)</h5>
+                            <div class="mb-3 d-flex align-items-end flex-wrap gap-2">
+                                <span class="product-price">30.990.000đ</span>
+                            </div>
+                            <button class="btn btn-buy w-100">Xem Chi Tiết</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <span class="discount-badge bg-warning text-dark">Hàng Mới</span>
+                    <a href="product-detail.html?id=5" class="product-link">
+                        <div class="product-img-wrapper">
+                            <img src="images/product-5.jpg" alt="Chuột Logitech">
+                        </div>
+                        <div class="card-body border-top">
+                            <h5 class="product-title">Chuột Gaming không dây Logitech PRO X2 SUPERSTRIKE 910-007778 (GRAPHITE - Đen Trắng)</h5>
+                            <div class="mb-3 d-flex align-items-end flex-wrap gap-2">
+                                <span class="product-price">4.990.000đ</span>
+                            </div>
+                            <button class="btn btn-buy w-100">Xem Chi Tiết</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light pt-5 pb-4 mt-5">
+        <div class="container text-md-start">
+            <div class="row g-4">
+                <div class="col-md-4 col-lg-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">WebTech Shop</h5>
+                    <p class="text-secondary">Hệ thống bán lẻ thiết bị mạng, máy tính, linh kiện PC và thiết bị văn phòng chuyên nghiệp hàng đầu.</p>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Chính sách</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal" class="text-secondary text-decoration-none hover-text-white">Chính sách bảo hành</a></li>
+                        <li class="mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal" class="text-secondary text-decoration-none hover-text-white">Chính sách thanh toán</a></li>
+                        <li class="mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal" class="text-secondary text-decoration-none hover-text-white">Giao hàng & Lắp đặt</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Kết nối với chúng tôi</h5>
+                    <div class="d-flex gap-2 mb-3">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal" class="btn btn-outline-light btn-sm rounded-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal" class="btn btn-outline-light btn-sm rounded-circle"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#comingSoonModal" class="btn btn-outline-light btn-sm rounded-circle"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                    <p class="text-secondary mb-1">Hotline: <strong class="text-white">1800.1234</strong></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="comingSoonModal" tabindex="-1" aria-labelledby="comingSoonModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body text-center pb-5 pt-0">
+                    <i class="fa-solid fa-person-digging modal-icon"></i>
+                    <h4 class="fw-bold mb-3" id="comingSoonModalLabel">Tính năng đang cập nhật</h4>
+                    <p class="text-muted px-3">
+                        Tính năng này hiện đang được nâng cấp và hoàn thiện. Vui lòng quay lại sau nhé!
+                    </p>
+                    <button type="button" class="btn btn-primary px-4 mt-2" data-bs-dismiss="modal">Đã hiểu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
